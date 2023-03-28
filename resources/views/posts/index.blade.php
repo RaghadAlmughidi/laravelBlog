@@ -17,12 +17,22 @@
     @if ($posts->count())
     @foreach ($posts as $post)
     <div class="mb-3 ml-3">
-      <a href="">{{$post->user->name}}</a> <span>{{$post->created_at->diffForHumans()}}</span>
+      <a href="{{route('users.posts',$post->user)}}">{{$post->user->name}}</a> <span>{{$post->created_at->diffForHumans()}}</span>
       <p> {{$post->body}}</p>
     </div>
-
-<hr>
-
+  <div class="">
+  @can('delete', $post)
+     
+  
+  <form action="{{route('posts.destroy',$post)}}" method="post">
+    @csrf
+    @method('DELETE')
+  <button type="submit" class="btn btn-danger"> delete</button>
+  </form>
+  @endcan
+  <hr>
+  </div>
+  
     @endforeach
     
     {{ $posts->links('pagination::bootstrap-4')}}

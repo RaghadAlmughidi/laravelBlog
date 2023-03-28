@@ -13,7 +13,7 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   $posts=Post::paginate(20); //get all post
+    {   $posts=Post::orderBy('created_at','desc')->paginate(20); //get all post
         return view('posts.index',[
             'posts'=>$posts //show posts in index
         ]);
@@ -87,6 +87,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+       $this->authorize('delete',$post);
+       $post->delete();
+       return back();
     }
 }

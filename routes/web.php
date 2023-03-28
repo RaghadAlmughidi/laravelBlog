@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserPostController;
 use App\Http\Controllers\PostLikeController;
 
 /*
@@ -24,6 +25,9 @@ Route::get('/', function () {
 Route::get('/posts', function () {
     return view('posts.index');
 });
+Route::get('/user/{user:username}/posts', [UserPostController::class,'index'])->name('users.posts');
+
+
 Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
 Route::get('/register', [RegisterController::class,'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'store']);
@@ -37,7 +41,7 @@ Route::post('/logout', [LogoutController::class, 'store'])->name('logout');
 
 Route::get('/posts', [PostController::class,'index'])->name('posts');
 Route::post('/posts', [PostController::class,'store']);
-
+Route::delete('/posts/{post}', [PostController::class,'destroy'])->name('posts.destroy');
 
 Route::post('/posts/{post:id}/likes', [PostLikeController::class,'store'])->name('posts.likes');
 
